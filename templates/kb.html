@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的课表</title>
+    <style>
+        body {
+            margin: 8px 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+            background: url(/static/bg.jpg);
+            background-size: 100% 100%;
+        }
+
+        tr {
+            margin: 0;
+            padding: 0;
+        }
+
+        th {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        td {
+            height: 70px;
+            /* margin: 1px; */
+            color: white;
+            /* border: solid 1px #b4bac7; */
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        tr>td:nth-child(1) {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 10px;
+            padding: 0;
+        }
+
+
+        h1 {
+            text-align: center;
+            color: black;
+            font-size: 1.2em;
+        }
+    </style>
+    <script src="/static/public.js"></script>
+</head>
+
+<body>
+    <h1>第2周课表</h1>
+    <table>
+        <tr>
+            <th></th>
+            <th>周一</th>
+            <th>周二</th>
+            <th>周三</th>
+            <th>周四</th>
+            <th>周五</th>
+            <th>周六</th>
+            <th>周日</th>
+        </tr>
+        <tr>
+            <td>08:00<br>-<br>09:35</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>10:05<br>-<br>11:40</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>14:00<br>-<br>15:35</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>16:05<br>-<br>17:40</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>19:00<br>-<br>20:35</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>21:05<br>-<br>22:40</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>午间课</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>晚间课</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <p style="text-align: center">
+        <a href="javascript:old()">返回原版</a>
+        <a href="javascript:logout()">登出</a>
+
+    </p>
+    <script>
+        function old() {
+            window.location.href = "/eams/login.action"
+        }
+
+        function logout() {
+            window.location.href = "/"
+            clear();
+        }
+    </script>
+</body>
+
+<script>
+
+</script>
+<script>
+    function setkb(week, day, content) {
+        document.getElementsByTagName("table")[0].getElementsByTagName("tr")[day].getElementsByTagName("td")[week].innerHTML = content;
+    };
+    // 纯静态页面,若不存在ss,则跳转回去,若存在,加载课表
+    const data = getData("data")
+    const week = getWeek();
+    if (data) {
+        document.getElementsByTagName("h1")[0].innerText = "第"+week+"周课表"
+        if (data['status'] == "正常") {
+            const kbs = data['data'];
+            for (let kc = 0; kc < kbs.length; kc++) {
+                const kb = kbs[kc];
+                if(kb[4][week] == "1"){
+                    setkb(kb[2], kb[3], kb[1] + "<br>" + kb[0]);
+                }
+            }
+        } else {
+            window.location.href = "/"
+        }
+    } else {
+        window.location.href = "/"
+    }
+</script>
+<script>
+
+    // 随机产生背景色
+    const colors = [
+        "#f9a2c2",
+        "#7dc384",
+        "#f66da0",
+        "#76b77d",
+        "#7882c9",
+        "#40a3a0",
+        "#e79645",
+        "#7a69c7",
+        "#46a6ee"
+    ];
+
+    const weeks = [1, 2, 3, 4, 5, 6, 7];
+    const lessons = [1, 2, 3, 4, 5, 6, 7, 8];
+    for (let week = 0; week < weeks.length; week++) {
+        const element = weeks[week];
+        for (let lesson = 0; lesson < lessons.length; lesson++) {
+            const element2 = lessons[lesson];
+            var x = document.getElementsByTagName("tr");
+            var ele = x[element2].getElementsByTagName("td")[element];
+            if (ele.textContent) {
+                ele.style.backgroundColor = colors[randomNum(0, 8)];
+            }
+        }
+    }
+</script>
+
+</html>

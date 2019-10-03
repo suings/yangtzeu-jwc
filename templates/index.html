@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>教务处</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+
+    <style>
+        * {
+            font-family: 'Source Han Sans CN';
+            -webkit-tap-highlight-color: rgba(180, 180, 180, 0.2);
+            margin: 0;
+            padding: 0;
+        }
+
+        a,
+        a:hover {
+            color: #10a78e;
+            text-decoration: none;
+        }
+
+
+        input[type="submit"],
+        input[type="reset"],
+        input[type="button"],
+        button {
+            -webkit-appearance: none;
+            line-height: normal !important;
+        }
+
+
+        ::-webkit-input-placeholder {
+            color: #999;
+        }
+
+        .placeholder-text {
+            color: #999;
+        }
+
+
+        /* input:focus, */
+        input:-webkit-autofill,
+        textarea:-webkit-autofill,
+        select:-webkit-autofill {
+            box-shadow: 0 0 0 1000px #f2f3f7 inset;
+            -webkit-box-shadow: 0 0 0 1000px #f2f3f7 inset;
+            /* 去除黄色背景 */
+            -webkit-text-fill-color: #000;
+            /* 改变字体颜色 */
+        }
+    </style>
+
+    <style>
+        body {
+            padding-top: 10%;
+            min-height: 100vh;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            padding-top: 40px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        .header>span {
+            line-height: 3rem;
+            display: inline-block;
+            vertical-align: top;
+            ;
+        }
+
+        .header>img {
+            display: inline-block;
+            height: 3rem;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .input {
+            /* 两个输入框 */
+            background: #f2f3f7;
+            margin: 10px 10%;
+            border-radius: 30px;
+            height: 52px;
+        }
+
+        .input>input {
+            position: relative;
+            height: 100%;
+            background: #f2f3f7;
+            border: none;
+            width: 60%;
+            left: 20%;
+            color: #03081a;
+            font-size: 100%;
+        }
+
+        input:focus {
+            border: none;
+
+        }
+
+        input[type="tel"],
+        input[type="password"],
+        button {
+            outline: none;
+        }
+
+        button {
+            border: none;
+            width: 4rem;
+            height: 4rem;
+            display: block;
+            border-radius: 50%;
+            /* background: #00cafc; */
+            background: #e9ebf2;
+            color: #fff;
+            font-size: 1rem;
+            margin: 2rem auto 4rem;
+            padding: 12px 0;
+        }
+
+        .footer {
+            /* margin: 10px 10%; */
+            position: absolute;
+            bottom: 8rem;
+            left: 10%;
+            width: 80%;
+            display: flex;
+
+        }
+
+        .footer>* {
+            flex: 1;
+            width: 0;
+            color: #03081a;
+            font-size: 0.8rem;
+        }
+
+        .footer-center {
+            width: 1px;
+            background: #d2d4d9;
+            flex: none;
+            margin: 3px 0;
+        }
+
+        .footer-left {
+            text-align: right;
+            text-align: center;
+
+        }
+
+        .footer-right {
+            text-align: center;
+        }
+
+        .about {
+            position: absolute;
+            bottom: 0;
+        }
+        .about>p{
+            font-size: 1rem;
+            margin: 0 20%;
+        }
+    </style>
+    <script src="/static/public.js"></script>
+    <script>
+        if (IsPC()) {
+            window.location.href = "/eams/login.action";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <img class="circle" src="https://coding.yangtzeu.fun/img/favicon.png" alt="">
+        <span>教务处</span>
+    </div>
+    <form id="form" name="forms" onSubmit="return checkreg()" method="post" action="/api" class="">
+        <div class="input">
+            <input id="username" name="username" type="tel" placeholder="请输入您的学号" oninput="checkRe()" />
+        </div>
+        <div class="input">
+            <input id="pwd" type="password" value="" name="password" oninput="checkRe()" placeholder="请输入密码" />
+        </div>
+        <button class="go">
+            <div class="enable">
+                GO
+            </div>
+            <!-- <div class="disable">
+                GO
+            </div>
+            <div class="loading">
+                登录中
+            </div> -->
+        </button>
+    </form>
+    <div class="mark"></div>
+    <div class="footer">
+        <div class="footer-left" onclick='window.location.href = "http://jwc.yangtzeu.fun/eams/login.action"'>返回原版</div>
+        <div class="footer-center"></div>
+        <div class="footer-right" onclick="window.open('https://github.com/suings/yangtzeu-jwc')">开源地址</div>
+
+
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-color/2.1.2/jquery.color.min.js"></script>
+
+    <script type="text/javascript">
+        function checkRe(time="fast") {
+            // 即时检测输入变化
+            let a = $("#username")[0].value;
+            let b = $("#pwd")[0].value;
+            if (a.length == 9 && b.length >= 6) {
+                $(".go").animate({backgroundColor:"#00cafc"},"fast")
+                return true
+            }
+            $(".go").animate({backgroundColor:"#e9ebf2"},time)
+            return false
+        }
+        function checkreg() {
+            if (!checkRe()) {
+                return false;
+            }
+
+            $.post("/api", $("#form").serialize(), (data) => {
+                window.data = data;
+                if (data['status'] == "正常") {
+                    setData("data", data)
+                    localStorage.setItem("username", document.getElementById("username").value)
+                    localStorage.setItem("pwd", document.getElementById("pwd").value)
+                    window.location.href = "/kb"
+                } else if (data['status'] == "密码错误") {
+                    localStorage.setItem("username", document.getElementById("username").value)
+                    localStorage.setItem("pwd", "")
+                    alert("密码不正确哦");
+                } else {
+                    alert("账号不存在或其他错误");
+                }
+            }, "json"
+            )
+            return false;
+        }
+
+        var init = () => {
+            if (getData("data")) {
+                window.location.href = "/kb"
+            }
+            if (localStorage.getItem("pwd")) {
+                document.getElementById("pwd").value = localStorage.getItem("pwd")
+                document.getElementById("username").value = localStorage.getItem("username")
+            }
+
+            checkRe(1);
+        }
+        init();
+    </script>
+
+</body>
+<script>
+    function ps() {
+        if (this.forms.password.type = "password")
+            box.innerHTML = '<input type="html" name="password" size="20" value=' + this.forms.password.value + '>';
+        click.innerHTML = '<a href="javascript:txt()" class="iconfont icon-open-eye"></a>';
+    }
+    function txt() {
+        if (this.forms.password.type = "text")
+            box.innerHTML = '<input type="password" name="password" size="20" value=' + this.forms.password.value + '>';
+        click.innerHTML = '<a href="javascript:ps()" class="iconfont icon-biyan"></a>';
+    }
+</script>
+
+</html>
